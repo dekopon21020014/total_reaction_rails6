@@ -1,0 +1,42 @@
+<style>
+a.btn {
+	display: inline-block;
+	text-align: center;
+	vertical-align: middle;
+	text-decoration: none;
+	width: 200px;
+	margin: 5px auto;
+	padding: 1rem 4rem;
+	font-weight: bold;
+	border-radius: 0.3rem;
+	border-bottom: 7px solid #0686b2;
+	background: #27acd9;
+	color: #fff;
+	font-size: 20px;
+	font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+a.btn:hover {
+	margin-top: 6px;
+	border-bottom: 1px solid #0686b2;
+	color: #fff;
+}
+</style>
+
+<h1>UserReactions#new</h1>
+<p>Find me in app/views/user_reactions/new.html.erb</p>
+
+<% if @user_reaction.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= @user_reaction.errors.count %> errors prohibited this book from being saved:</h2>
+    <ul>
+      <% @user_reaction.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+<% @reactions.each do |reaction|%>
+<div>
+    <%= link_to reaction.name, create_user_reaction_path(user_id: "1", reaction_id: reaction.id), class: "btn" %>
+</div>
+<% end %>

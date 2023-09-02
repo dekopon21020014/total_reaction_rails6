@@ -1,0 +1,29 @@
+<h1>Reactions#new</h1>
+<p>Find me in app/views/reactions/new.html.erb</p>
+
+<% if @reaction.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= @reaction.errors.count %> errors prohibited this book from being saved:</h2>
+    <ul>
+      <% @reaction.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with model: @reaction, url: reactions_path, method: :post do |f| %>
+    <div class="field">
+      <%= f.label :name, "Name" %>
+      <%=f.text_field :name%>
+    </div>
+    <div class="actions">
+      <%= f.submit 'Create Book' %>
+    </div>
+<% end %>
+
+// name属性
+// getパラメータ
+// submitいっぱい
+// js
+// rubyのメソッド

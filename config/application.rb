@@ -10,6 +10,11 @@ module App
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
+    config.autoload_paths += %W(#{config.root}/app)
+    config.autoload_paths += %W(#{config.root}/config/routes)
+    config.autoload_paths += %W(#{config.root}/db)
+    config.autoload_paths += %W(#{config.root}/Gemfile)
+    #config.i18n.default_locale = :ja
 
     # Configuration for the application, engines, and railties goes here.
     #
