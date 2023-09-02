@@ -35,6 +35,9 @@ a.btn:hover {
     </ul>
   </div>
 <% end %>
+
+<h1>this is feature_websocket</h1>
+
 <% @reactions.each do |reaction|%>
 <div>
     <%= link_to reaction.name, create_user_reaction_path(user_id: "1", reaction_id: reaction.id), class: "btn" %>
