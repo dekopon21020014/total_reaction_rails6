@@ -13,7 +13,8 @@ class UserReactionsController < ApplicationController
     @user_reaction.user_id = params[:user_id].to_i
     @user_reaction.reaction_id = params[:reaction_id].to_i
     if @user_reaction.save
-      redirect_to new_user_reaction_path
+      ActionCable.server.broadcast 'reaction_channel', {content: @user_reaction}
+      # redirect_to new_user_reaction_path
     else
       render :new
     end
