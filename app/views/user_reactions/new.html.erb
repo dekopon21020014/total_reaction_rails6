@@ -25,6 +25,8 @@ a.btn:hover {
 <h1>UserReactions#new</h1>
 <p>Find me in app/views/user_reactions/new.html.erb</p>
 
+<%#= pie_chart [['赤', 50], ['青', 50]]%>
+
 <% if @user_reaction.errors.any? %>
   <div id="error_explanation">
     <h2><%= @user_reaction.errors.count %> errors prohibited this book from being saved:</h2>
@@ -40,6 +42,6 @@ a.btn:hover {
 
 <% @reactions.each do |reaction|%>
 <div>
-    <%= link_to reaction.name, create_user_reaction_path(user_id: "1", reaction_id: reaction.id), class: "btn" %>
+    <%= link_to reaction.name, create_user_reaction_path(reaction_id: reaction.id), class: "btn" %>
 </div>
 <% end %>
