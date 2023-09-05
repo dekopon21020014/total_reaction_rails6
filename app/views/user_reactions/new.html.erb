@@ -39,6 +39,6 @@ a.btn:hover {
 <% end %>
 <% @reactions.each do |reaction|%>
 <div>
-    <%= link_to reaction.name, create_user_reaction_path(user_id: "1", reaction_id: reaction.id), class: "btn" %>
+    <%= link_to reaction.name, create_user_reaction_path(reaction_id: reaction.id), class: "btn" %>
 </div>
 <% end %>
