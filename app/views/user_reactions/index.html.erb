@@ -1,4 +1,4 @@
-<div id='user_reactions_chart'>
+<div id='user-reactions-chart'>
 <%= line_chart @reactions.map { |reaction|
     [reaction.name, reaction.user_reactions.count]
 } %>
@@ -11,6 +11,6 @@
     <p><%= reaction.name %>:<%= reaction.user_reactions.count %></p>
 <% end %>
 
-<div id='reaction-buttons' data-room_id="2">
+<div id='reaction-buttons' data-channel_type="presenter">
 
 </div>

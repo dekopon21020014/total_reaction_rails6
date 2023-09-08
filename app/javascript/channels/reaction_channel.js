@@ -3,9 +3,9 @@ import consumer from "./consumer"
 $(document).on('turbolinks:load', function () {
 
   const reactionButtons = $('#reaction-buttons') // reactionsのエレメント
-  const user_reactions_chart = $('#user_reactions_chart') // リアクションを表示しているグラフ
+  const userReactionsChart = $('#user-reactions-chart') // リアクションを表示しているグラフ
   const room = consumer.subscriptions.create(
-      {channel: "ReactionChannel", room_id: reactionButtons.data('room_id')}, {
+      {channel: "ReactionChannel", channel_type: reactionButtons.data('channel_type')}, {
 
           connected() {
               // 未使用
@@ -16,12 +16,11 @@ $(document).on('turbolinks:load', function () {
           },
 
           received(data) {
-              console.log(data);
-              user_reactions_chart.html(data['reaction']);
+              userReactionsChart.html(data['user_reactions_chart']);
           },
 
-          send_reaction: function (reaction) {
-              return this.perform('send_reaction', {reaction: reaction})
+          send_reaction: function (reactionId) { // reaction_channel.rb#send_reactionを呼ぶ
+              return this.perform('send_reaction', /* reaction = */ {id: reactionId})
           }
       });
 
@@ -30,7 +29,7 @@ $(document).on('turbolinks:load', function () {
       const buttonElements = $('.btn'); // btnクラスの要素たち
       buttonElements.click(function (event) {
               const clickedButton = $(this); // btnのうちクリックされた要素
-              room.send_reaction(clickedButton.val()); // value属性の値を取ってくる
+              room.send_reaction(/*reactionId = */clickedButton.val()); // value属性の値を上で定義されたsend_reactionに渡す
               // event.preventDefault(); formとかを使うときにはこの記述が必要
       })
   })

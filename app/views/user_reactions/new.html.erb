@@ -38,7 +38,7 @@
   </div>
 <% end %>
 
-<div id='reaction-buttons' data-room_id="1">
+<div id='reaction-buttons' data-channel_type="participant">
 <% @reactions.each do |reaction|%>
 	<div>
 		<button class="btn" type="button" value="<%= reaction.id %>" %><%= reaction.name %></button>
