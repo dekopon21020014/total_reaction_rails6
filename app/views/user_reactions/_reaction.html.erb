@@ -1,0 +1,9 @@
+<div class="reaction">
+  <p>
+    <%# 部分テンプレートで渡ってくるcurrent_user内に、ユーザー情報がなければActionCable経由として判断 %>
+      <%#= reaction.reaction_id %>
+      <% #(Reaction.find(params['reaction'].to_i)).name %>
+      <%= Reaction.find(reaction['reaction'].to_i).name %>
+      ここが追加される
+  </p>
+</div>

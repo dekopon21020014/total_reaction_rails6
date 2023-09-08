@@ -1,5 +1,5 @@
 <style>
-a.btn {
+.btn {
 	display: inline-block;
 	text-align: center;
 	vertical-align: middle;
@@ -15,7 +15,7 @@ a.btn {
 	font-size: 20px;
 	font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
-a.btn:hover {
+.btn:hover {
 	margin-top: 6px;
 	border-bottom: 1px solid #0686b2;
 	color: #fff;
@@ -42,6 +42,20 @@ a.btn:hover {
 
 <% @reactions.each do |reaction|%>
 <div>
-    <%= link_to reaction.name, create_user_reaction_path(reaction_id: reaction.id), class: "btn" %>
+    <%= link_to reaction.name, {controller: "user_reactions", action: "create", reaction_id: reaction.id}, method: :post , class: "btn"%>
 </div>
 <% end %>
+
+<div id="hoge">
+<% @user_reactions.each do |user_reaction| %>
+	<p><%= user_reaction.reaction.name %></p>
+<% end %>
+</div>
+
+<div id='reactions' data-room_id="1">
+<button id="reaction" class="favorite styled btn" type="button" value="1">Add to favorites</button>
+</div>
+
+<div id='reactions' data-room_id="1">
+<button id="reaction" class="favorite styled btn" type="button" value="2">Add to favorites</button>
+</div>
