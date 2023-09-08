@@ -1,5 +1,5 @@
 <style>
-a.btn {
+.btn {
 	display: inline-block;
 	text-align: center;
 	vertical-align: middle;
@@ -15,7 +15,7 @@ a.btn {
 	font-size: 20px;
 	font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
-a.btn:hover {
+.btn:hover {
 	margin-top: 6px;
 	border-bottom: 1px solid #0686b2;
 	color: #fff;
@@ -37,8 +37,11 @@ a.btn:hover {
     </ul>
   </div>
 <% end %>
+
+<div id='reaction-buttons' data-channel_type="participant">
 <% @reactions.each do |reaction|%>
-<div>
-    <%= link_to reaction.name, create_user_reaction_path(reaction_id: reaction.id), class: "btn" %>
-</div>
+	<div>
+		<button class="btn" type="button" value="<%= reaction.id %>" %><%= reaction.name %></button>
+	</div>
 <% end %>
+</div>
