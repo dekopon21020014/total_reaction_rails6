@@ -57,11 +57,13 @@ $(document).on('turbolinks:load', function () {
   // 入力フォームの制御
   $(document).ready(function () {
       // 入力エリアのエレメント
-      const buttonElement = $('#reaction')
+      const buttonElements = $('.btn');
       // 入力エリアのEnterKey検出
-      buttonElement.click(function (event) {
+      // console.log('buttonElement: ' + buttonElement);
+      buttonElements.click(function (event) {
               // send_reactionを呼び出し
-              room.send_reaction(buttonElement.val());
+              const clickedButton = $(this);
+              room.send_reaction(clickedButton.val());
               event.preventDefault();
       })
   })
