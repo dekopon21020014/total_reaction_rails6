@@ -6,3 +6,9 @@
 <%= column_chart reactions.map { |reaction|
     [reaction.name, reaction.user_reactions.count]
 } %>
+
+<p>リアクション数: <%= (UserReaction.all).count %></p>
+
+<% reactions.each do |reaction| %>
+    <p><%= reaction.name %>:<%= reaction.user_reactions.count %></p>
+<% end %>

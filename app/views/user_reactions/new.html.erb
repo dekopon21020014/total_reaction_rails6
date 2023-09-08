@@ -1,3 +1,4 @@
+
 <style>
 .btn {
 	display: inline-block;
@@ -10,13 +11,14 @@
 	font-weight: bold;
 	border-radius: 0.3rem;
 	border-bottom: 7px solid #0686b2;
-	background: #27acd9;
-	color: #fff;
+	/* background: #27acd9; */
+	/* color: #fff; */
 	font-size: 20px;
 	font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
-.btn:hover {
+.btn:active {
 	margin-top: 6px;
+	margin-bottom: 10px;
 	border-bottom: 1px solid #0686b2;
 	color: #fff;
 }
@@ -41,7 +43,8 @@
 <div id='reaction-buttons' data-channel_type="participant">
 <% @reactions.each do |reaction|%>
 	<div>
-		<button class="btn" type="button" value="<%= reaction.id %>" %><%= reaction.name %></button>
+		<button class="btn btn-primary" type="button" value="<%= reaction.id %>" %><%= reaction.name %></button>
 	</div>
 <% end %>
 </div>
+<button type="button" class="btn btn-primary">Primary</button>
