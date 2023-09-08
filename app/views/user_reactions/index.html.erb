@@ -1,6 +1,8 @@
+<div id='user_reactions_chart'>
 <%= line_chart @reactions.map { |reaction|
     [reaction.name, reaction.user_reactions.count]
 } %>
+</div>
 
 
 <p>リアクション数: <%= @user_reactions.count %></p>

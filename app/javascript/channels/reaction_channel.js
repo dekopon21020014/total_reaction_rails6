@@ -24,7 +24,7 @@ consumer.subscriptions.create("ReactionChannel", {
 $(document).on('turbolinks:load', function () {
 
   const reactions = $('#reactions') // reactionsのエレメント
-
+  const user_reactions_chart = $('#user_reactions_chart')
   // ルームIDを#reactions内のdata-room-idから取得し、
   // chats_channel.rbでも使えるようにする
   const room = consumer.subscriptions.create(
@@ -46,6 +46,7 @@ $(document).on('turbolinks:load', function () {
               console.log(data);
               // reactions.append(data['reaction'])
               reactions.html('<div>こんなになっちゃった</div>')
+              user_reactions_chart.html(data['reaction']);
           },
 
           send_reaction: function (reaction) {

@@ -24,6 +24,7 @@ class ReactionChannel < ApplicationCable::Channel
   def render_reaction(data)
     # renderではなくrendererに注意してください
     #   rendererは、コントローラの制約を受けずに任意のビューテンプレートをレンダリングします
-    ApplicationController.renderer.render(partial: 'user_reactions/reaction', locals: {reaction: data})
+    @user_reactions = Reaction.all
+    ApplicationController.renderer.render(partial: 'user_reactions/reaction', locals: {user_reactions: @user_reactions})
   end
 end
