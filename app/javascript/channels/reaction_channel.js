@@ -1,34 +1,11 @@
 import consumer from "./consumer"
-/*
-consumer.subscriptions.create("ReactionChannel", {
-  connected() {
-    // Called when the subscription is ready for use on the server
-  },
-
-  disconnected() {
-    // Called when the subscription has been terminated by the server
-  },
-
-  received(data) {
-    // Called when there's incoming data on the websocket for this channel
-    const html = `<p>${data.content.text}</p>`;
-    const messages = document.getElementsByClassName('reactions');
-    const newMessage = document.getElementById('message_text');
-    messages.insertAdjacentHTML('afterbegin', html);
-    newMessage.value='';
-  }
-});
-*/
-
 
 $(document).on('turbolinks:load', function () {
 
-  const reactions = $('#reactions') // reactionsのエレメント
-  const user_reactions_chart = $('#user_reactions_chart')
-  // ルームIDを#reactions内のdata-room-idから取得し、
-  // chats_channel.rbでも使えるようにする
+  const reactionButtons = $('#reaction-buttons') // reactionsのエレメント
+  const user_reactions_chart = $('#user_reactions_chart') // リアクションを表示しているグラフ
   const room = consumer.subscriptions.create(
-      {channel: "ReactionChannel", room_id: reactions.data('room_id')}, {
+      {channel: "ReactionChannel", room_id: reactionButtons.data('room_id')}, {
 
           connected() {
               // 未使用
@@ -39,13 +16,7 @@ $(document).on('turbolinks:load', function () {
           },
 
           received(data) {
-              // 受け取ったデータを追加する
-              //  dataには、reactions_channel.rbから送られるパラメーター名に
-              //  部分テンプレートに文字が埋め込まれているものが送られてくるので
-              //  配列からmessageを抜き出し追加している。
               console.log(data);
-              // reactions.append(data['reaction'])
-              reactions.html('<div>こんなになっちゃった</div>')
               user_reactions_chart.html(data['reaction']);
           },
 
@@ -54,17 +25,13 @@ $(document).on('turbolinks:load', function () {
           }
       });
 
-  // 入力フォームの制御
+  // ボタン押下を見張る      
   $(document).ready(function () {
-      // 入力エリアのエレメント
-      const buttonElements = $('.btn');
-      // 入力エリアのEnterKey検出
-      // console.log('buttonElement: ' + buttonElement);
+      const buttonElements = $('.btn'); // btnクラスの要素たち
       buttonElements.click(function (event) {
-              // send_reactionを呼び出し
-              const clickedButton = $(this);
-              room.send_reaction(clickedButton.val());
-              event.preventDefault();
+              const clickedButton = $(this); // btnのうちクリックされた要素
+              room.send_reaction(clickedButton.val()); // value属性の値を取ってくる
+              // event.preventDefault(); formとかを使うときにはこの記述が必要
       })
   })
 })

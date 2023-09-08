@@ -38,25 +38,10 @@
   </div>
 <% end %>
 
-<h1>this is feature_websocket</h1>
-
+<div id='reaction-buttons' data-room_id="1">
 <% @reactions.each do |reaction|%>
-<div>
-    <%= link_to reaction.name, {controller: "user_reactions", action: "create", reaction_id: reaction.id}, method: :post , class: "btn"%>
-</div>
+	<div>
+		<button class="btn" type="button" value="<%= reaction.id %>" %><%= reaction.name %></button>
+	</div>
 <% end %>
-
-<div id="hoge">
-<% @user_reactions.each do |user_reaction| %>
-	<p><%= user_reaction.reaction.name %></p>
-<% end %>
-</div>
-
-
-<div id='reactions' data-room_id="1">
-<button id='reaction' class="favorite styled btn" type="button" value="1">Add to favorites</button>
-</div>
-
-<div id='reactions' data-room_id="1">
-<button class="reaction favorite styled btn" type="button" value="2">Add to favorites</button>
 </div>
