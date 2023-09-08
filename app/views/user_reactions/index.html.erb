@@ -1,7 +1,12 @@
 <div id='user-reactions-chart'>
 <%= line_chart @reactions.map { |reaction|
+    {name: reaction.name, data: reaction.user_reactions.group_by_minute(:created_at).count}
+} %>
+
+<%= column_chart @reactions.map { |reaction|
     [reaction.name, reaction.user_reactions.count]
 } %>
+
 </div>
 
 

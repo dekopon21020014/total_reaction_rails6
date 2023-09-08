@@ -60,3 +60,5 @@ gem 'jquery-rails'
 
 # for descrive chart
 gem 'chartkick'
+
+gem 'groupdate'
