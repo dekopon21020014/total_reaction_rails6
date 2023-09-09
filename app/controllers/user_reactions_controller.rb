@@ -1,14 +1,29 @@
 class UserReactionsController < ApplicationController
   def new
-    @user_reaction = UserReaction.new
-    @reactions     = Reaction.all
+    @user_reaction  = UserReaction.new
+    @reactions      = Reaction.all
     @user_reactions = UserReaction.all
+
+
   end
 
   def index
-    @user_reactions = UserReaction.all
-    @reactions      = Reaction.all
-    
+    to   = Time.current # config/application.rbの設定のタイムゾーンに応じた現在時刻を取得
+    from = to - (3600 * 1.5) # 現在時刻から90分前
+    @reactions = Reaction.all
+    @user_reactions_90min = UserReaction.where("created_at BETWEEN ? AND ?", from, to)
+
+    @data_for_line_chart = @reactions.map { |reaction|
+      {name: reaction.name, data: reaction.user_reactions.where("created_at BETWEEN ? AND ?", from, to).group_by_minute(:created_at).count}
+    }
+
+    @data_for_column_chart = @reactions.map { |reaction| 
+      [reaction.name, reaction.user_reactions.where("created_at BETWEEN ? AND ?", from, to).count]
+    }
+
+    @count_of_reaction_90min = @reactions.map { |reaction|
+      {name: reaction.name, count: reaction.user_reactions.where("created_at BETWEEN ? AND ?", from, to).count}
+    }
   end
 
   def create

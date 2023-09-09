@@ -1,14 +1,7 @@
 <%# グラフの更新 %>
-<%= line_chart reactions.map { |reaction|
-    {name: reaction.name, data: reaction.user_reactions.group_by_minute(:created_at).count}
-} %>
-
-<%= column_chart reactions.map { |reaction|
-    [reaction.name, reaction.user_reactions.count]
-} %>
-
-<p>リアクション数: <%= (UserReaction.all).count %></p>
-
-<% reactions.each do |reaction| %>
-    <p><%= reaction.name %>:<%= reaction.user_reactions.count %></p>
+<%= line_chart data_for_line_chart %>
+<%= column_chart data_for_column_chart %>
+<p>リアクション数: <%= user_reactions_90min.count %></p>
+<% count_of_reaction_90min.each do |reaction| %>
+    <p><%= reaction['name'] %>:<%= reaction['count'] %></p>
 <% end %>
