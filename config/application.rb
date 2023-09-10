@@ -14,6 +14,7 @@ module App
     config.autoload_paths += %W(#{config.root}/config/routes)
     config.autoload_paths += %W(#{config.root}/db)
     config.autoload_paths += %W(#{config.root}/Gemfile)
+    config.time_zone = 'Tokyo'
     #config.i18n.default_locale = :ja
 
     # Configuration for the application, engines, and railties goes here.

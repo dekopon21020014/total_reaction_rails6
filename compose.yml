@@ -13,7 +13,7 @@ services:
     image: mysql:8.0.21
     volumes:
       - mysql_data:/var/lib/mysql # データの永続化
-    command: --default-authentication-plugin=mysql_native_password # 認証方式を8系以前のものにする。
+    command: --default-time-zone=Asia/Tokyo --default-authentication-plugin=mysql_native_password # 認証方式を8系以前のものにする。
     environment:
       MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
       MYSQL_DATABASE: $MYSQL_DATABASE
