@@ -9,11 +9,17 @@ services:
     depends_on:
       - db
 
-  db: # MySQLが起動するコンテナ
-    image: mysql:8.0.21
-    volumes:
-      - mysql_data:/var/lib/mysql # データの永続化
-    command: --default-time-zone=Asia/Tokyo --default-authentication-plugin=mysql_native_password # 認証方式を8系以前のものにする。
+  #db: # MySQLが起動するコンテナ
+  #  image: mysql:8.0.21
+  #  volumes:
+  #    - mysql_data:/var/lib/mysql # データの永続化
+  
+  db:
+    image: mysql
+    # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
+    # (this is just an example, not intended to be a production configuration)
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
       MYSQL_DATABASE: $MYSQL_DATABASE
@@ -22,5 +28,5 @@ services:
     ports:
       - 3306:3306
 
-volumes:
-  mysql_data: # データボリュームの登録
+#volumes:
+#  mysql_data: # データボリュームの登録
