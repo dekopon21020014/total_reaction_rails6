@@ -34,6 +34,6 @@ class ReactionsController < ApplicationController
   end
 
   def reaction_params
-    params.require(:reaction).permit(:name)
+    params.require(:reaction).permit(:name, :image)
   end
 end

@@ -34,6 +34,10 @@ class UserReactionsController < ApplicationController
     end
   end
 
+  def image
+
+  end
+
   def user_reaction_params
     params.require(:user_reaction).permit(:reaction_id)
   end
