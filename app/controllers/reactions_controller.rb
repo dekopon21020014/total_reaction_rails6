@@ -33,6 +33,12 @@ class ReactionsController < ApplicationController
     end
   end
 
+  def destroy
+    reaction = Reaction.find(params[:id])
+    reaction.destroy
+    redirect_to reactions_path
+  end
+
   def reaction_params
     params.require(:reaction).permit(:name, :image)
   end

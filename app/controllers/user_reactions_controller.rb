@@ -11,14 +11,15 @@ class UserReactionsController < ApplicationController
     @reactions = Reaction.all
     @user_reactions_90min = UserReaction.where("created_at BETWEEN ? AND ?", from, to)
 
+    # 折れ線グラフのためのデータ
     @data_for_line_chart = @reactions.map { |reaction|
       {name: reaction.name, data: reaction.user_reactions.where("created_at BETWEEN ? AND ?", from, to).group_by_minute(:created_at).count}
     }
-
+    # 棒グラフのためのデータ
     @data_for_column_chart = @reactions.map { |reaction| 
       [reaction.name, reaction.user_reactions.where("created_at BETWEEN ? AND ?", from, to).count]
     }
-
+    # 90分間で何回リアクションあったかをviewで表示したい
     @count_of_reaction_90min = @reactions.map { |reaction|
       {name: reaction.name, count: reaction.user_reactions.where("created_at BETWEEN ? AND ?", from, to).count}
     }
@@ -35,7 +36,7 @@ class UserReactionsController < ApplicationController
   end
 
   def image
-
+	  @reactions = Reaction.all
   end
 
   def user_reaction_params

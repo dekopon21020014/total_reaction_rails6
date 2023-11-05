@@ -1,4 +1,4 @@
-# docker compose run app bash -c "gem install rails -v 6.1.7 && rails new . -d mysql"
+# 初回起動は->docker compose run app bash -c "gem install rails -v 6.1.7 && rails new . -d mysql"
 # Railsのconfig/database.ymlのpasswordとhostを編集する
 # 2回目からはdocker compose upでオッケー
 
@@ -20,7 +20,8 @@ WORKDIR /app
 COPY Gemfile Gemfile.lock ./
 RUN bundle
 COPY . .
+RUN rails webpacker:install
+RUN rails webpacker:compile
 
 ENTRYPOINT ["bash", "/app/entrypoint.sh"]
-
 CMD ["rails", "s", "-b", "0.0.0.0"]

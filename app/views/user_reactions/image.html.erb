@@ -1,3 +1,10 @@
-<%= image_tag "sleepy.png", size: "200x200" %>
-<%= image_tag "soso.png", size: "200x200" %>
-<%= image_tag "interesting.png", size: "200x200" %>
+
+  <% @reactions.each do |reaction| %>
+    <%#= image_tag reaction.get_image(reaction.user_reactions.count*10, reaction.user_reactions.count*10) %>
+    <%= image_tag reaction.get_image(300, 300) %>
+    <%= reaction.user_reactions.count %>
+  <% end %>
+
+  <div id="container">新しいウィンドウを開く</div>
+  <%= javascript_pack_tag 'new_window' %>
+  

@@ -12,22 +12,7 @@
   </div>
 <% end %>
 
-
-  <%= form_with model: @reaction, url: reactions_path, method: :post do |f| %>
-    <div class="field">
-      <%= f.label :name, "Name" %>
-      <%=f.text_field :name%>
-    </div>
-
-    <div class="field">
-      <%= f.label :name, "Image" %>
-      <%= f.file_field :image, class:"form-control-file user_image", accept: "image/*" %>
-    </div>
-
-    <div class="actions">
-      <%= f.submit 'Create Book' %>
-    </div>
-  <% end %>
+<%= render 'form', reaction: @reaction %>
 
 // name属性
 // getパラメータ
