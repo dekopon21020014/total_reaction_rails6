@@ -1,0 +1,13 @@
+<% count = UserReaction.all.count %>
+hoge: <%= count %>
+  <% reactions.each do |reaction| %>
+    <% size = 50 + 50 * (((reaction.user_reactions.count * 100).to_f / count) / 33) %>
+    <%= image_tag reaction.get_image(size, size) %>
+    size:
+    <%= size.to_i %>
+  <% end %>
+<!--
+N:Nにして中間テーブルが必要かもしれない？
+50 + 50 * (((reaction.user_reactions.count * 100).to_f / count) / 33)
+50 * (1 + ((reaction.user_reactions.count * 100).to_f / (count * 33)))
+-->

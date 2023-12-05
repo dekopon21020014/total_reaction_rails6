@@ -1,10 +1,27 @@
-
+<div id='reaction-buttons' data-channel_type="image"></div>
+<br>
+<div id="image">
+  <% count = UserReaction.all.count %>
   <% @reactions.each do |reaction| %>
-    <%#= image_tag reaction.get_image(reaction.user_reactions.count*10, reaction.user_reactions.count*10) %>
-    <%= image_tag reaction.get_image(300, 300) %>
-    <%= reaction.user_reactions.count %>
+    <% size = 50 + 50 * (((reaction.user_reactions.count * 100) / count) / 33) %>
+    <%= image_tag reaction.get_image(size, size) %>
   <% end %>
+</div>
 
-  <div id="container">新しいウィンドウを開く</div>
-  <%= javascript_pack_tag 'new_window' %>
-  
+<!-- <div id="container">新しいウィンドウを開く</div>
+<%= javascript_pack_tag 'new_window' %>
+-->
+
+<!-- 
+33で除算したものが1より大きいか小さいか
+50 - 150に対応させる
+0 < p/33 < 2 
+0 < p    < 99 
+0 < 1    < 2
+
+0%  => 0
+33% => 1
+99% => 2
+
+100 + 50*(p/33)
+-->

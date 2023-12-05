@@ -22,3 +22,15 @@ reaction = Reaction.create(
     name: "Soso"
 )
 reaction.image.attach(io: File.open("app/assets/images/soso.png"), filename:"soso.png")
+
+UserReaction.create(
+    reaction_id: 1
+)
+
+UserReaction.create(
+    reaction_id: 2
+)
+
+UserReaction.create(
+    reaction_id: 3
+)

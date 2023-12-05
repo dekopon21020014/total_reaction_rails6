@@ -2,7 +2,7 @@ class UserReactionsController < ApplicationController
   def new
     @user_reaction  = UserReaction.new
     @reactions      = Reaction.all
-    @user_reactions = UserReaction.all 
+    @user_reactions = UserReaction.all
   end
 
   def index
