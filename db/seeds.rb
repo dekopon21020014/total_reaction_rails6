@@ -9,28 +9,31 @@
 #Reaction.create([{name: 'hoge'}, {name: 'foo'}, {name: 'huga'}])
 
 reaction = Reaction.create(
-    name: "Interesting"
+    name: "Good"
 )
-reaction.image.attach(io: File.open("app/assets/images/interesting.png"), filename:"interesting.png")
-
-reaction = Reaction.create(
-    name: "Sleepy"
-)
-reaction.image.attach(io: File.open("app/assets/images/sleepy.png"), filename:"sleepy.png")
+reaction.image.attach(io: File.open("app/assets/images/happy_woman.png"), filename:"good.png")
 
 reaction = Reaction.create(
     name: "Soso"
 )
-reaction.image.attach(io: File.open("app/assets/images/soso.png"), filename:"soso.png")
+reaction.image.attach(io: File.open("app/assets/images/office_chair_man.png"), filename:"soso.png")
 
-UserReaction.create(
-    reaction_id: 1
+reaction = Reaction.create(
+    name: "Bad"
 )
+reaction.image.attach(io: File.open("app/assets/images/smartphone_gorogoro_man.png"), filename:"bad.png")
 
-UserReaction.create(
-    reaction_id: 2
-)
+N = LIMIT / 3
+N.times do |n|
+    UserReaction.create(
+        reaction_id: 1
+    )
 
-UserReaction.create(
-    reaction_id: 3
-)
+    UserReaction.create(
+        reaction_id: 2
+    )
+
+    UserReaction.create(
+        reaction_id: 3
+    )
+end

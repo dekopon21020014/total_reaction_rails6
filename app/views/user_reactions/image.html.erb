@@ -1,54 +1,19 @@
 <div id='reaction-buttons' data-channel_type="image"></div>
 <br>
-<% ActiveRecord::Base.connection.execute('DROP TEMPORARY TABLE IF EXISTS temp_user_reactions') #念のためテーブルの削除を行う %>
-<% ActiveRecord::Base.connection.execute("CREATE TEMPORARY TABLE temp_user_reactions AS
-                                          SELECT id
-                                          FROM user_reactions
-                                          ORDER BY id DESC
-                                          LIMIT #{LIMIT}"
-                                        ) %>
+
 <div id="image">
-  <%# count = UserReaction.all.count %>
-  <% @reactions.each do |reaction| %>
-    <% result = (ActiveRecord::Base.connection.select_all("SELECT user_reactions.id, reactions.name
-                                                           FROM user_reactions
-                                                           JOIN reactions ON user_reactions.reaction_id = reactions.id
-                                                           WHERE user_reactions.id IN (SELECT id FROM temp_user_reactions)
-                                                           AND reactions.id = #{reaction.id}"
-                                                        )) %>
-    <% reaction_count = result.nil? ? 0 : result.count %>                                                    
-    <% size = 50 + 50 * (((reaction_count * 100) / LIMIT) / 33) %>
-    <%= image_tag reaction.get_image(size, size) %>
-  <% end %>
+  <%= render 'user_reactions/images', reactions: @reactions %>
 </div>
 
-<div>
-  <% Reaction.all.each do |reaction| %>
-    <% ActiveRecord::Base.connection.execute('DROP TEMPORARY TABLE IF EXISTS temp_user_reactions') %>
-    <% ActiveRecord::Base.connection.execute("CREATE TEMPORARY TABLE temp_user_reactions AS
-                                              SELECT id
-                                              FROM user_reactions
-                                              ORDER BY id DESC
-                                              LIMIT #{LIMIT}"
-                                            ) %>
 
-    <% result = ActiveRecord::Base.connection.select_all("SELECT user_reactions.id, reactions.name
-                                                          FROM user_reactions
-                                                          JOIN reactions ON user_reactions.reaction_id = reactions.id
-                                                          WHERE user_reactions.id IN (SELECT id FROM temp_user_reactions)
-                                                          AND reactions.id = #{reaction.id}"
-                                                        ) %>
+<p>リアクションの履歴を直近10レコード見ている</p>
+<p>直近で0%なら50pxずつ</p>
+<p>直近で33%なら100px</p>
+<p>直近で100%なら200px</p>みたいな感じです
+<p></p>
 
-    <%= "result.count = " %>                                                    
-    <%= result.nil? ? 0 : result.count %><br>
-    <% ActiveRecord::Base.connection.execute('DROP TEMPORARY TABLE IF EXISTS temp_user_reactions') %>
-  <% end %>
-</div>
-
-<!-- <div id="container">新しいウィンドウを開く</div>
-<%= javascript_pack_tag 'new_window' %>
-ActiveRecord::Base.connection.select_all('select * from user_reactions ORDER BY id desc limit 3')
-select * from user_reactions join reactions on user_reactions.reaction_id=reactions.id
+<div id="open">新しいウィンドウを開く</div>
+<!--
 33で除算したものが1より大きいか小さいか
 50 - 150に対応させる
 0 < p/33 < 2 
@@ -60,7 +25,4 @@ select * from user_reactions join reactions on user_reactions.reaction_id=reacti
 99% => 2
 
 100 + 50*(p/33)
-SELECT user_reactions.id, reactions.name FROM user_reactions JOIN reactions ON user_reactions.reaction_id = reactions.id WHERE user_reactions.id = 3 ORDER BY user_reactions.id DESC LIMIT 3
-
-ActiveRecord::Base.connection.select_all('SELECT user_reactions.id, reactions.name FROM user_reactionsJOIN reactions ON user_reactions.reaction_id = reactions.id WHERE user_reactions.id IN (SELECT id FROM user_reactions ORDER BY id DESC LIMIT 3) AND reactions.id = 1')
 -->

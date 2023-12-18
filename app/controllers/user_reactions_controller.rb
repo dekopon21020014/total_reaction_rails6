@@ -39,7 +39,29 @@ class UserReactionsController < ApplicationController
 	  @reactions = Reaction.all
   end
 
+  def new_image
+    UserReaction.create(
+      reaction_id: params[:reaction_id]
+    )
+    ActionCable.server.broadcast "reaction_channel_image", {user_reactions_image: render_image}
+  end
+
+  private
   def user_reaction_params
     params.require(:user_reaction).permit(:reaction_id)
+  end
+
+  def render_image
+    # reaction?channel.rbからコピペしたからコメントはそっちに記述した
+    reactions = Reaction.all
+    renderer = ApplicationController.renderer.new(
+      http_host: ENV['HTTP_HOST'] + ":" + ENV['PORT']
+      #,https: false
+    )
+    renderer.render(partial: 'user_reactions/images', 
+                    locals: {
+                      reactions: reactions,
+                    }
+                  )
   end
 end

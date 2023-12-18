@@ -1,13 +1,20 @@
-<% count = UserReaction.all.count %>
-hoge: <%= count %>
-  <% reactions.each do |reaction| %>
-    <% size = 50 + 50 * (((reaction.user_reactions.count * 100).to_f / count) / 33) %>
-    <%= image_tag reaction.get_image(size, size) %>
-    size:
-    <%= size.to_i %>
-  <% end %>
-<!--
-N:Nにして中間テーブルが必要かもしれない？
-50 + 50 * (((reaction.user_reactions.count * 100).to_f / count) / 33)
-50 * (1 + ((reaction.user_reactions.count * 100).to_f / (count * 33)))
--->
+<% ActiveRecord::Base.connection.execute('DROP TEMPORARY TABLE IF EXISTS temp_user_reactions') #念のためテーブルの削除を行う %>
+<% ActiveRecord::Base.connection.execute("CREATE TEMPORARY TABLE temp_user_reactions AS
+                                          SELECT id
+                                          FROM user_reactions
+                                          ORDER BY id DESC
+                                          LIMIT #{LIMIT}"
+                                        ) %>                                                                                                                                                                                                                                                                                
+<% reactions.each do |reaction| %>
+  <% result = (ActiveRecord::Base.connection.select_all("SELECT user_reactions.id, reactions.name
+                                                          FROM user_reactions
+                                                          JOIN reactions ON user_reactions.reaction_id = reactions.id
+                                                          WHERE user_reactions.id IN (SELECT id FROM temp_user_reactions)
+                                                          AND reactions.id = #{reaction.id}"
+                                                      )) %>
+  <% reaction_count = result.nil? ? 0 : result.count %>
+  <% size = 50 + 50 * (((reaction_count * 100.0) / LIMIT) / 33) %>
+  <%= image_tag reaction.get_image(size, size) %>
+<% end %>
+
+<%= javascript_pack_tag 'new_window' %>

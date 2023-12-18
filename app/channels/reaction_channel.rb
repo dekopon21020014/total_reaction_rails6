@@ -52,7 +52,7 @@ class ReactionChannel < ApplicationCable::Channel
   end
 
   def render_image(data)
-    reactions = Reaction.limit(10)
+    reactions = Reaction.all
     # この記述がないと，ApplicationController.rendererを使ってActiveStorageへのアクセスが失敗する
     # 具体的には<img>のsrc="http://example.com/...../hoge.png"みたいになる
     # http_hostに画像が保存されているホスト(とポート)を指定する
@@ -75,7 +75,7 @@ class ReactionChannel < ApplicationCable::Channel
 
   end
 
-  def my_address
+  def my_address # 自分のipアドレスを教えるメソッド
     require 'socket'
     udp = UDPSocket.new
     # クラスBの先頭アドレス,echoポート 実際にはパケットは送信されない。

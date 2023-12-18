@@ -21,7 +21,7 @@ $(document).on('turbolinks:load', function () {
 
             received(data) { // reaction_channnel.rbからboroadcastされたデータこの関数で受け取る
                 userReactionsChart.html(data['user_reactions_chart']);
-                userReactionsImage.html(data['user_reactions_image'])
+                userReactionsImage.html(data['user_reactions_image']);
             },
 
             send_reaction: function (reactionId) { // reaction_channel.rb#send_reactionを呼ぶ
