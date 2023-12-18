@@ -1,5 +1,6 @@
-var div = document.getElementById("container")
+openNewWindow();
 
-div.onclick = function(){
-  window.open('/user_reactions/', '_blank', 'width=500,height=500');
-};
+function openNewWindow() {
+  // window.open('/user_reactions/', '_blank', windowFeature);
+  window.open('/user_reactions/', '_blank', "width=250, height=250, top=1340, left=1880");
+}
