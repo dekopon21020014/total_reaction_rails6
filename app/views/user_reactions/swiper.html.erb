@@ -12,8 +12,8 @@
   <!-- Additional required wrapper -->
   <div class="swiper-wrapper">
     <!-- Slides -->
-    <% for i in 1..5 %>
-        <div class="swiper-slide"><%= image_tag "slide#{i}.png" %></div>
+    <% Slide.all.each do |slide| %>
+        <div class="swiper-slide"><%= image_tag slide.get_image(1435, 807) %></div>
     <% end %>
   </div>
   <!-- If we need pagination -->

@@ -37,3 +37,11 @@ N.times do |n|
         reaction_id: 3
     )
 end
+
+
+for i in 1..5
+    slide = Slide.create(
+        script_id: 1
+    )
+    slide.image.attach(io: File.open("app/assets/images/slide#{i}.png"), filename:"bad.png")
+end
