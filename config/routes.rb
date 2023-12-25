@@ -7,4 +7,6 @@ Rails.application.routes.draw do
   get '/user_reactions/new_image'
   get '/user_reactions/tmp'
   get '/user_reactions/swiper'
+  get '/user_reactions/next_slide'
+  get '/user_reactions/popup'
 end

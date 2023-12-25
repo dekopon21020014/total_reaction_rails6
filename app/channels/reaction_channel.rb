@@ -15,7 +15,7 @@ class ReactionChannel < ApplicationCable::Channel
     # 部分テンプレートをWebSocket経由で送り出す。
     # reaction_channel.jsのrecievedで受け取る
     # channnel_2が発表者側のグラフ表示の方
-    ActionCable.server.broadcast "reaction_channel_presenter", {user_reactions_chart: render_reaction(reaction)}
+    # ActionCable.server.broadcast "reaction_channel_presenter", {user_reactions_chart: render_reaction(reaction)}
     ActionCable.server.broadcast "reaction_channel_image",     {user_reactions_image: render_image(reaction)}
   end
 
@@ -85,6 +85,3 @@ class ReactionChannel < ApplicationCable::Channel
     adrs
   end
 end
-# http://localhost:3000/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBCZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3bfe818aacf4b11d70de754b5b5db8e8bd9e8fff/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJY0c1bkJqb0dSVlE2RkhKbGMybDZaVjkwYjE5c2FXMXBkRnNIYVNOcEl3PT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--076bbc1e584c979ecd80a3d14fe7147a3a8ea00f/interesting.png
-# http://localhost:3000/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBCZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3bfe818aacf4b11d70de754b5b5db8e8bd9e8fff/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJY0c1bkJqb0dSVlE2RkhKbGMybDZaVjkwYjE5c2FXMXBkRnNIYVI1cEhnPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--8f485caf05795e37e67bb37e57c2adeeb94d11e5/interesting.png
-# http://example.org   /rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBCZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3bfe818aacf4b11d70de754b5b5db8e8bd9e8fff/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJY0c1bkJqb0dSVlE2RkhKbGMybDZaVjkwYjE5c2FXMXBkRnNIYVNOcEl3PT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--076bbc1e584c979ecd80a3d14fe7147a3a8ea00f/interesting.png

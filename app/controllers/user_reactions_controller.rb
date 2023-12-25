@@ -28,7 +28,7 @@ class UserReactionsController < ApplicationController
   def create
     @user_reaction = UserReaction.new(reaction_id: params[:reaction_id].to_i)
     if @user_reaction.save
-      ActionCable.server.broadcast 'reaction_channel', {content: @user_reaction}
+      # ActionCable.server.broadcast 'reaction_channel', {content: @user_reaction}
       # redirect_to new_user_reaction_path
     else
       render :new
@@ -51,6 +51,14 @@ class UserReactionsController < ApplicationController
   end
 
   def swiper; end
+
+  def next_slide
+    ActionCable.server.broadcast "reaction_channel_image", {clicked_true: render_image}
+  end
+
+  def popup
+    ActionCable.server.broadcast "reaction_channel_image", {popup_true: render_image}
+  end
 
   private
   def user_reaction_params

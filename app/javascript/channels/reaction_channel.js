@@ -4,6 +4,8 @@ $(document).on('turbolinks:load', function () {
     const reactionButtons    = $('#reaction-buttons')     // reactionsのエレメント
     const userReactionsChart = $('#user-reactions-chart') // リアクションを表示しているグラフ
     const userReactionsImage = $('#image')                /* 画像を塗り替える */
+    const clickedTrue        = $('#clicked-true')
+    const popupTrue          = $('#popup-true')
 
     const room = consumer.subscriptions.create(
         {
@@ -22,6 +24,8 @@ $(document).on('turbolinks:load', function () {
             received(data) { // reaction_channnel.rbからboroadcastされたデータこの関数で受け取る
                 userReactionsChart.html(data['user_reactions_chart']);
                 userReactionsImage.html(data['user_reactions_image']);
+                clickedTrue.html(data['clicked_true']);
+                popupTrue.html(data['popup_true'])
             },
 
             send_reaction: function (reactionId) { // reaction_channel.rb#send_reactionを呼ぶ

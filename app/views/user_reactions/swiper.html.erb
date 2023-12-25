@@ -3,17 +3,30 @@
     width: 1435px;
     height: 810px;
 }
-/* mac bookなら1450 x 1500が良い
+/* 
+ * mac bookなら1450 x 1500が良い
  * 画像サイズは1435 x 807くらい
 */
 </style>
-
-<div class="swiper" style="">
+<% if request.url.include?('popup=true')%>
+  <div id="popup-true" style="height: 200px;">
+  </div>
+<% elsif request.url.include?('clicked=true')%>
+  <div id="clicked-true" style="height: 200px;">
+    <%= render 'user_reactions/images', reactions: Reaction.all %>
+  </div>
+<% else%>
+  <div id="image" style="height: 200px;">
+    <%= render 'user_reactions/images', reactions: Reaction.all %>
+  </div>
+<% end%>
+  
+<div class="swiper">
   <!-- Additional required wrapper -->
   <div class="swiper-wrapper">
     <!-- Slides -->
     <% Slide.all.each do |slide| %>
-        <div class="swiper-slide"><%= image_tag slide.get_image(1435, 807) %></div>
+        <div class="swiper-slide border"><%= image_tag slide.get_image(1435, 807) %></div>
     <% end %>
   </div>
   <!-- If we need pagination -->
@@ -21,13 +34,14 @@
 
   <!-- If we need navigation buttons -->
   <div class="swiper-button-prev"></div>
-  <div class="swiper-button-next"></div>
+  <div id="next" class="swiper-button-next"></div>
 
   <!-- If we need scrollbar -->
   <div class="swiper-scrollbar"></div>
 </div>
 
+<div id='reaction-buttons' data-channel_type="image"></div>
 <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <%# swiperのjs読み込み %>
-<%= javascript_pack_tag "script.js" %>
+<%= javascript_pack_tag "swiper.js" %>
