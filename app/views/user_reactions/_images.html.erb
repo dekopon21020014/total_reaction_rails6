@@ -16,5 +16,8 @@
   <% size = 50 + 50 * (((reaction_count * 100.0) / LIMIT) / 33) %>
   <%= image_tag reaction.get_image(size, size) %>
 <% end %>
-
-<%= javascript_pack_tag 'new_window' %>
+<% if request.url.include?('/user_reactions/tmp') %>
+  <%= javascript_pack_tag 'close_window' %>
+<% elsif request.url.include?('?tmp=true') %>
+  <%= javascript_pack_tag 'new_window' %>
+<% end %>

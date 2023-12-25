@@ -5,7 +5,7 @@ class UserReactionsController < ApplicationController
     @user_reactions = UserReaction.all
   end
 
-  def index
+  def index # 結局これは使わない
     to   = Time.current # config/application.rbの設定のタイムゾーンに応じた現在時刻を取得
     from = to - (3600 * 1.5) # 現在時刻から90分前
     @reactions = Reaction.all
@@ -45,6 +45,12 @@ class UserReactionsController < ApplicationController
     )
     ActionCable.server.broadcast "reaction_channel_image", {user_reactions_image: render_image}
   end
+
+  def tmp
+    @reactions = Reaction.all
+  end
+
+  def swiper; end
 
   private
   def user_reaction_params

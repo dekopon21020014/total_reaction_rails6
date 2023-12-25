@@ -1,0 +1,33 @@
+<style>
+.swiper {
+    width: 1435px;
+    height: 810px;
+}
+/* mac bookなら1450 x 1500が良い
+ * 画像サイズは1435 x 807くらい
+*/
+</style>
+
+<div class="swiper" style="">
+  <!-- Additional required wrapper -->
+  <div class="swiper-wrapper">
+    <!-- Slides -->
+    <% for i in 1..5 %>
+        <div class="swiper-slide"><%= image_tag "slide#{i}.png" %></div>
+    <% end %>
+  </div>
+  <!-- If we need pagination -->
+  <div class="swiper-pagination"></div>
+
+  <!-- If we need navigation buttons -->
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
+
+  <!-- If we need scrollbar -->
+  <div class="swiper-scrollbar"></div>
+</div>
+
+<script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<%# swiperのjs読み込み %>
+<%= javascript_pack_tag "script.js" %>
