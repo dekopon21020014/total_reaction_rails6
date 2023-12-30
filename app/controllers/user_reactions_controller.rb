@@ -50,7 +50,9 @@ class UserReactionsController < ApplicationController
     @reactions = Reaction.all
   end
 
-  def swiper; end
+  def swiper
+    @user_reactions = UserReaction.page(params[:page]).per(10)
+  end
 
   def next_slide
     ActionCable.server.broadcast "reaction_channel_image", {clicked_true: render_image}

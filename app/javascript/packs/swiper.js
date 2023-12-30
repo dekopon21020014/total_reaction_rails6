@@ -21,26 +21,27 @@ const swiper = new Swiper('.swiper', {
   },
 });
 const buttonNext = document.getElementById("next");
-const Http     = new XMLHttpRequest();
-const nextUrl  = 'http://localhost:3000/user_reactions/next_slide';
-const popupUrl = 'http://localhost:3000/user_reactions/popup';
+const buttonPrev = document.getElementById("prev")
+const Http       = new XMLHttpRequest();
+const domain     = 'http://' + window.location.host 
+const nextUrl    = domain + '/user_reactions/next_slide';
+const popupUrl   = domain + '/user_reactions/popup';
 
 addEventListener("keydown", renderPopup);
 addEventListener("keydown", renderImage);
 
-function renderImage() {
+/* シンプルにswiperの矢印がクリックされた時のonclickも見張ろう */
+
+function renderImage(event) {
+  /* 右矢印，エンター，スペースなら次のページへ進む */
+  console.log(event.key);
   buttonNext.click();
   Http.open("GET", nextUrl);
   Http.send();
-  /*
-  Http.onreadystatechange = (e) => {
-    console.log(Http.responseText)
-  }
-  */
 }
 
 let id;
-function renderPopup() {
+function renderPopup(e) {
   buttonNext.click();
   Http.open("GET", popupUrl);
   Http.send();
@@ -51,3 +52,10 @@ function deletePopup() {
   $('#popup-true').html('');
   clearInterval(id);
 }
+
+/*
+*  いかの3つのURLで動きが変わるppはなくても一応大丈夫
+*  http://localhost:3000/user_reactions/swiper?pp=disable
+*  http://localhost:3000/user_reactions/swiper?pp=disable&popup=true
+*  http://localhost:3000/user_reactions/swiper?pp=disable&clicked=true
+*/

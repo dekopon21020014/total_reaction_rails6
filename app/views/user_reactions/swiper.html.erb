@@ -1,47 +1,89 @@
 <style>
+.scroll-area {
+  height: 807px;
+  /* overflow: scroll; /* こいつがあるとうまくjscrollが発火しない */
+}
+
+.pagination {
+  visibility: hidden;
+}
+
 .swiper {
     width: 1435px;
-    height: 810px;
+    height: 800px;
 }
 /* 
  * mac bookなら1450 x 1500が良い
  * 画像サイズは1435 x 807くらい
 */
 </style>
-<% if request.url.include?('popup=true')%>
-  <div id="popup-true" style="height: 200px;">
+<div class="containar">
+  <% if false %>
+  <div class="row">
+    <% if request.url.include?('popup=true')%>
+      <div id="popup-true" style="height: 200px;">
+      </div>
+    <% elsif request.url.include?('clicked=true')%>
+      <div id="clicked-true" style="height: 200px;">
+        <%= render 'user_reactions/images', reactions: Reaction.all %>
+      </div>
+    <% else%>
+      <div id="image" style="height: 200px;">
+        <%= render 'user_reactions/images', reactions: Reaction.all %>
+      </div>
+    <% end%>
   </div>
-<% elsif request.url.include?('clicked=true')%>
-  <div id="clicked-true" style="height: 200px;">
-    <%= render 'user_reactions/images', reactions: Reaction.all %>
-  </div>
-<% else%>
-  <div id="image" style="height: 200px;">
-    <%= render 'user_reactions/images', reactions: Reaction.all %>
-  </div>
-<% end%>
-  
-<div class="swiper">
-  <!-- Additional required wrapper -->
-  <div class="swiper-wrapper">
-    <!-- Slides -->
-    <% Slide.all.each do |slide| %>
-        <div class="swiper-slide border"><%= image_tag slide.get_image(1435, 807) %></div>
-    <% end %>
-  </div>
-  <!-- If we need pagination -->
-  <div class="swiper-pagination"></div>
+  <% else %>
+    <div style="height: 100px;"></div>
+  <% end %>
+  <div class="row">
+    <div class="col-9" style="margin-left: 20px;">
+      <div class="swiper">
+        <!-- Additional required wrapper -->
+        <div class="swiper-wrapper">
+          <!-- Slides --> 
+          <% Slide.all.each do |slide| %>
+              <div class="swiper-slide border"><%= image_tag slide.get_image(1435, 807) %></div>
+          <% end %> 
+        </div>
+        <!-- If we need pagination -->
+        <div class="swiper-pagination"></div>
 
-  <!-- If we need navigation buttons -->
-  <div class="swiper-button-prev"></div>
-  <div id="next" class="swiper-button-next"></div>
+        <!-- If we need navigation buttons -->
+        <div id="prev" class="swiper-button-prev"></div>
+        <div id="next" class="swiper-button-next"></div>
 
-  <!-- If we need scrollbar -->
-  <div class="swiper-scrollbar"></div>
+        <!-- If we need scrollbar -->
+        <div class="swiper-scrollbar"></div>
+      </div>
+    </div>
+    <div class="scroll-area">
+      <div class="scroll-list jscroll scroll border" style="width: 100px;">
+        <% @user_reactions.order(id: "DESC").each do |user_reaction| %>
+          <div><%= image_tag user_reaction.reaction.get_image(100, 100) %></div>
+        <% end %>
+        <%= paginate @user_reactions %>
+      </div>
+    </div>
+    <div id='reaction-buttons' data-channel_type="image"></div>
+    <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <%# swiperのjs読み込み %>
+    <%= javascript_pack_tag "swiper.js" %>    
+  </div>
 </div>
 
-<div id='reaction-buttons' data-channel_type="image"></div>
-<script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
-<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-<%# swiperのjs読み込み %>
-<%= javascript_pack_tag "swiper.js" %>
+<% if request.url.include?('jscroll=true') %>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jscroll/2.4.1/jquery.jscroll.min.js">
+  /* jscrollをcdnで読み込み */
+  </script>
+  <script>
+    var jscrollOption = {
+        loadingHtml: '読み込み中・・・', //記事読み込み中の表示
+        autoTrigger: true, // 自動で読み込むか否か、trueで自動、falseでボタンクリックとなる。
+        padding: 20, // 指定したコンテンツの下から何pxで読み込むかを指定(autoTrigger: trueの場合のみ)
+        contentSelector: '.jscroll' // 読み込む範囲の指定
+    };
+    $('.jscroll').jscroll(jscrollOption);
+  </script>
+<% end %>
