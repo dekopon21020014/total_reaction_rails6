@@ -1,0 +1,28 @@
+<div id='reaction-buttons' data-channel_type="image"></div>
+<br>
+
+<div id="image">
+  <%= render 'user_reactions/images', reactions: @reactions %>
+</div>
+
+<!--
+<p>リアクションの履歴を直近10レコード見ている</p>
+<p>直近で0%なら50pxずつ</p>
+<p>
+  直近で33%なら100px
+</p>
+<p>直近で100%なら200px</p>みたいな感じです
+
+<div id="open">新しいウィンドウを開く</div>
+33で除算したものが1より大きいか小さいか
+50 - 150に対応させる
+0 < p/33 < 2 
+0 < p    < 99 
+0 < 1    < 2
+
+0%  => 0
+33% => 1
+99% => 2
+
+100 + 50*(p/33)
+-->

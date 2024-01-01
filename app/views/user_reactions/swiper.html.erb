@@ -1,0 +1,49 @@
+<style>
+/*
+.swiper {
+    width: 1435px;
+    height: 800px;
+}
+/* 
+ * mac bookなら1450 x 1500が良い
+ * 画像サイズは1435 x 807くらい
+*/
+</style>
+<div class="containar">
+  <div class="row">
+    <div class="col-9">
+      <div class="swiper" style="margin-top: 50px;">
+        <!-- Additional required wrapper -->
+        <div class="swiper-wrapper">
+          <!-- Slides --> 
+          <% Slide.all.each do |slide| %>
+              <div class="swiper-slide border center-block"><%= image_tag slide.get_image(1435, 807) %></div>
+          <% end %> 
+        </div>
+        <!-- If we need pagination -->
+        <div class="swiper-pagination"></div>
+
+        <!-- If we need navigation buttons -->
+        <div id="prev" class="swiper-button-prev"></div>
+        <div id="next" class="swiper-button-next"></div>
+
+        <!-- If we need scrollbar -->
+        <div class="swiper-scrollbar"></div>
+      </div>
+    </div>
+    <div class="col-3 proposal-method" >
+      <%= render 'my_method' %>
+    </div>
+    <div id='reaction-buttons' data-channel_type="image"></div>
+    <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <%= javascript_pack_tag "swiper.js" %>    
+  </div>
+</div>
+
+<% if request.url.include?('jscroll=true') %>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jscroll/2.4.1/jquery.jscroll.min.js">
+  /* jscrollをcdnで読み込み */
+  </script>
+  <%= javascript_pack_tag "scroll.js" %>
+<% end %>

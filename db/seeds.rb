@@ -6,4 +6,42 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-Reaction.create([{name: 'hoge'}, {name: 'foo'}, {name: 'huga'}])
+#Reaction.create([{name: 'hoge'}, {name: 'foo'}, {name: 'huga'}])
+
+reaction = Reaction.create(
+    name: "Good"
+)
+reaction.image.attach(io: File.open("app/assets/images/happy_woman.png"), filename:"good.png")
+
+reaction = Reaction.create(
+    name: "Soso"
+)
+reaction.image.attach(io: File.open("app/assets/images/office_chair_man.png"), filename:"soso.png")
+
+reaction = Reaction.create(
+    name: "Bad"
+)
+reaction.image.attach(io: File.open("app/assets/images/smartphone_gorogoro_man.png"), filename:"bad.png")
+
+N = LIMIT / 3
+N.times do |n|
+    UserReaction.create(
+        reaction_id: 1
+    )
+
+    UserReaction.create(
+        reaction_id: 2
+    )
+
+    UserReaction.create(
+        reaction_id: 3
+    )
+end
+
+
+for i in 1..5
+    slide = Slide.create(
+        script_id: 1
+    )
+    slide.image.attach(io: File.open("app/assets/images/slide#{i}.png"), filename:"bad.png")
+end

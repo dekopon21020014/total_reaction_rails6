@@ -12,12 +12,4 @@
   </div>
 <% end %>
 
-<%= form_with model: @reaction, url: reaction_path(@reaction), method: :patch do |f| %>
-    <div class="field">
-      <%= f.label :name, "Name" %>
-      <%=f.text_field :name%>
-    </div>
-    <div class="actions">
-      <%= f.submit 'Create Book' %>
-    </div>
-<% end %>
+<%= render 'form', reaction: @reaction %>
