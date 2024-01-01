@@ -1,0 +1,3 @@
+<% UserReaction.order(id: "DESC").limit(10).reverse.each do |user_reaction| %>
+    <div><%= image_tag user_reaction.reaction.get_image(100, 100) %></div>
+<% end %>

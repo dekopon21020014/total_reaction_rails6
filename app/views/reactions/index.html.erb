@@ -15,6 +15,7 @@
         <tr>
           <td><%= reaction.id %></td>
           <td><%= reaction.name %></td>
+          <td><%= image_tag reaction.get_image(20, 20) %></td>
           <td><%= link_to 'Show', reaction_path(reaction.id) %></td>
           <td><%= link_to 'Edit', edit_reaction_path(reaction.id) %></td>
           <td><%= link_to 'Destroy', reaction_path(reaction.id), method: :delete, "data-confirm" => "Are you sure?"%></td>
