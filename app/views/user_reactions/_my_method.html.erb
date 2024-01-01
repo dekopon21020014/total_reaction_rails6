@@ -1,0 +1,16 @@
+<% if request.url.include?('popup=true')%>
+    <div id="popup-true" style="margin-top: 380px;">
+    </div>
+<% elsif request.url.include?('clicked=true')%>
+    <div id="clicked-true" style="margin-top: 380px;">
+        <%= render 'user_reactions/images', reactions: Reaction.all %>
+    </div>
+<% elsif request.url.include?('traditional=true')%>
+    <div id="traditional-true" style="margin-left: 70px;"> 
+        <%= render 'user_reactions/traditional' %>
+    </div>
+<% else %>
+    <div id="image" style="margin-top: 380px;">
+        <%= render 'user_reactions/images', reactions: Reaction.all %>
+    </div>
+<% end%>

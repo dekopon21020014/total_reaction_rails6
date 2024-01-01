@@ -8,7 +8,7 @@ class ReactionChannel < ApplicationCable::Channel
   end
 
   def send_reaction(reaction) 
-    UserReaction.create(
+    new_reaction = UserReaction.create(
       reaction_id: reaction['id'] # keyは多分name属性
     )
 
@@ -16,7 +16,8 @@ class ReactionChannel < ApplicationCable::Channel
     # reaction_channel.jsのrecievedで受け取る
     # channnel_2が発表者側のグラフ表示の方
     # ActionCable.server.broadcast "reaction_channel_presenter", {user_reactions_chart: render_reaction(reaction)}
-    ActionCable.server.broadcast "reaction_channel_image",     {user_reactions_image: render_image(reaction)}
+    path = Rails.application.routes.url_helpers.rails_blob_path(new_reaction.reaction.image, only_path: true)
+    ActionCable.server.broadcast "reaction_channel_image",     {user_reactions_image: render_image(reaction), image_path: path}
   end
 
   private

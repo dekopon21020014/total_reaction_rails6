@@ -25,7 +25,7 @@ class UserReactionsController < ApplicationController
     }
   end
 
-  def create
+  def create # こいつも使ってない
     @user_reaction = UserReaction.new(reaction_id: params[:reaction_id].to_i)
     if @user_reaction.save
       # ActionCable.server.broadcast 'reaction_channel', {content: @user_reaction}
@@ -40,19 +40,18 @@ class UserReactionsController < ApplicationController
   end
 
   def new_image
-    UserReaction.create(
+    new_reaction = UserReaction.create(
       reaction_id: params[:reaction_id]
     )
-    ActionCable.server.broadcast "reaction_channel_image", {user_reactions_image: render_image}
+    path = Rails.application.routes.url_helpers.rails_blob_path(new_reaction.reaction.image, only_path: true)
+    ActionCable.server.broadcast "reaction_channel_image", {user_reactions_image: render_image, image_path: path}
   end
 
   def tmp
     @reactions = Reaction.all
   end
 
-  def swiper
-    @user_reactions = UserReaction.page(params[:page]).per(10)
-  end
+  def swiper; end
 
   def next_slide
     ActionCable.server.broadcast "reaction_channel_image", {clicked_true: render_image}
@@ -60,6 +59,10 @@ class UserReactionsController < ApplicationController
 
   def popup
     ActionCable.server.broadcast "reaction_channel_image", {popup_true: render_image}
+  end
+
+  def traditional
+    # ActionCable.server.broadcast "reaction_channel_image", {traditional_true: render_image}
   end
 
   private

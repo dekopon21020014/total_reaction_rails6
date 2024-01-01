@@ -6,6 +6,7 @@ $(document).on('turbolinks:load', function () {
     const userReactionsImage = $('#image')                /* 画像を塗り替える */
     const clickedTrue        = $('#clicked-true')
     const popupTrue          = $('#popup-true')
+    const traditionalTrue    = $('#traditional-true')
 
     const room = consumer.subscriptions.create(
         {
@@ -25,7 +26,9 @@ $(document).on('turbolinks:load', function () {
                 userReactionsChart.html(data['user_reactions_chart']);
                 userReactionsImage.html(data['user_reactions_image']);
                 clickedTrue.html(data['clicked_true']);
-                popupTrue.html(data['popup_true'])
+                popupTrue.html(data['popup_true']);
+                $('#traditional-true div:first').remove();
+                traditionalTrue.append("<div><img src=\"http://" + window.location.host + data['image_path'] + "\" width=\"100px\"></div>");
             },
 
             send_reaction: function (reactionId) { // reaction_channel.rb#send_reactionを呼ぶ
