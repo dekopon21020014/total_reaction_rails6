@@ -82,7 +82,11 @@ function renderImage() {
     Http.open("GET", popupUrl);
     intervalId = setInterval(deletePopup, 3000);
   }
-  Http.send();
+  try {
+    Http.send();
+  } catch (e) {
+    // nothing
+  }
 }
 
 function deletePopup() {

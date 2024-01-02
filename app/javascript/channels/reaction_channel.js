@@ -22,18 +22,18 @@ $(document).on('turbolinks:load', function () {
                 // 未使用
             },
 
-            received(data) { // reaction_channnel.rbからboroadcastされたデータこの関数で受け取る
-                if (data['user_reactions_chart']) {
-                    userReactionsChart.html(data['user_reactions_chart']);
-                } else if (data['user_reactions_image']) {
-                    userReactionsImage.html(data['user_reactions_image']);
-                } else if (data['clicked_true']) {
+            received(data) { // reaction_channnel.rbからboroadcastされたデータこの関数で受け取る  
+                if (data['clicked_true']) {
                     clickedTrue.html(data['clicked_true']);
                 } else if (data['popup_true']) {
                     popupTrue.html(data['popup_true']);
-                } else {
+                } else if (data['image_path']) {
                     $('#traditional-true div:first').remove();
                     traditionalTrue.append("<div><img src=\"http://" + window.location.host + data['image_path'] + "\" width=\"100px\"></div>");
+                } else if (data['user_reactions_chart']) {
+                    userReactionsChart.html(data['user_reactions_chart']);
+                } else if (data['user_reactions_image']) {
+                    userReactionsImage.html(data['user_reactions_image']);
                 }
             },
 
