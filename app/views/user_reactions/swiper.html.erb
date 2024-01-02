@@ -12,12 +12,12 @@
 <div class="containar">
   <div class="row">
     <div class="col-9">
-      <div class="swiper" style="margin-top: 50px;">
+      <div class="swiper" style="margin-top: 50px; width: 1435px;">
         <!-- Additional required wrapper -->
         <div class="swiper-wrapper">
           <!-- Slides --> 
           <% Slide.all.each do |slide| %>
-              <div class="swiper-slide border center-block"><%= image_tag slide.get_image(1435, 807) %></div>
+              <div class="swiper-slide border"><%= image_tag slide.get_image(1435, 807) %></div>
           <% end %> 
         </div>
         <!-- If we need pagination -->

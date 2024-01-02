@@ -19,38 +19,65 @@ const swiper = new Swiper('.swiper', {
   scrollbar: {
     el: '.swiper-scrollbar',
   },
-});
-const buttonNext = document.getElementById("next");
-const buttonPrev = document.getElementById("prev")
-const Http       = new XMLHttpRequest();
-const domain     = 'http://' + window.location.host 
-const nextUrl    = domain + '/user_reactions/next_slide';
-const popupUrl   = domain + '/user_reactions/popup';
 
-addEventListener("keydown", renderPopup);
-addEventListener("keydown", renderImage);
+  keyboard: {
+    enabled: false,
+    pageUpDown: false,
+  },
+});
+
+const buttonNext   = document.getElementById("next");
+const buttonPrev   = document.getElementById("prev")
+const Http         = new XMLHttpRequest();
+const domain       = 'http://' + window.location.host 
+const nextSlideUrl = domain + '/user_reactions/next_slide';
+const popupUrl     = domain + '/user_reactions/popup';
+const maxSlideId   = 5;
 
 /* シンプルにswiperの矢印がクリックされた時のonclickも見張ろう */
+let intervalId;
+let currentSlideId = 1;
 
-function renderImage(event) {
-  /* 右矢印，エンター，スペースなら次のページへ進む */
-  console.log(event.key);
-  buttonNext.click();
-  Http.open("GET", nextUrl);
-  Http.send();
+addEventListener("keydown", handleNavigationKeyEvent);
+buttonNext.addEventListener("click", handleButtonNextEvent);
+buttonPrev.addEventListener("click", handleButtonPrevEvent);
+
+function handleButtonNextEvent() {
+  if (currentSlideId > 0 && currentSlideId < maxSlideId) {
+    currentSlideId++;
+    renderImage();
+  }
 }
 
-let id;
-function renderPopup(e) {
-  buttonNext.click();
-  Http.open("GET", popupUrl);
+function handleButtonPrevEvent() {
+  if (currentSlideId > 1) {
+    currentSlideId--;
+  }
+}
+
+function handleNavigationKeyEvent(e) {
+  /* 右矢印，エンター，スペースなら次のページへ進む */
+  if (e.code == 'Enter' || e.code == 'ArrowRight' || e.code == 'Space') {
+    clearInterval(intervalId); 
+    buttonNext.click();
+  } else if (e.code == 'ArrowLeft') {
+    buttonPrev.click();
+  }
+}
+
+function renderImage() {
+  if (window.location.href.includes("clicked=true")) {
+    Http.open("GET", nextSlideUrl);
+  } else if (window.location.href.includes("popup=true")) {
+    Http.open("GET", popupUrl);
+    intervalId = setInterval(deletePopup, 3000);
+  }
   Http.send();
-  id = setInterval(deletePopup, 3000)
 }
 
 function deletePopup() {
   $('#popup-true').html('');
-  clearInterval(id);
+  clearInterval(intervalId);
 }
 
 /*
