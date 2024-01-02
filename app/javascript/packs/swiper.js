@@ -38,8 +38,12 @@ const maxSlideId   = 5;
 let intervalId;
 let currentSlideId = 1;
 
+// キーボード入力時
 addEventListener("keydown", handleNavigationKeyEvent);
+
+// 「進む」ボタンクリック時
 buttonNext.addEventListener("click", handleButtonNextEvent);
+// 「戻る」ボタンクリック時
 buttonPrev.addEventListener("click", handleButtonPrevEvent);
 
 function handleButtonNextEvent() {
@@ -55,8 +59,14 @@ function handleButtonPrevEvent() {
   }
 }
 
+/* handleNavicationKeyEvent()
+ * 右矢印，エンター，スペースなら次のページへ進む
+ * 左矢印ならスライドを戻る
+ * クリックをエミュレートしているから，クリックイベントが発生する
+ * それによってイベントハンドラーが起動される
+ * つまり，キーイベントハンドラー内からクリックイベントハンドラーをよびだす
+*/
 function handleNavigationKeyEvent(e) {
-  /* 右矢印，エンター，スペースなら次のページへ進む */
   if (e.code == 'Enter' || e.code == 'ArrowRight' || e.code == 'Space') {
     clearInterval(intervalId); 
     buttonNext.click();
