@@ -53,6 +53,9 @@ class UserReactionsController < ApplicationController
 
   def swiper; end
 
+  # nest_slideアクションと，popupアクションはやっていることは全く同じ
+  # 異なるのは，ブロードキャストする時のキーのみ
+  # これ一個にまとめられるのでは？
   def next_slide
     ActionCable.server.broadcast "reaction_channel_image", {clicked_true: render_image}
   end

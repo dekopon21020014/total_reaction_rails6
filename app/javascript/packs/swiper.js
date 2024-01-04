@@ -75,17 +75,20 @@ function handleNavigationKeyEvent(e) {
   }
 }
 
+/*
+ * 実際にはこの関数ではrenderしていない
+ * httpリクエストを投げることでそれに対応したコントローラ内のアクションによってrenderしている
+ * 
+*/
 function renderImage() {
   if (window.location.href.includes("clicked=true")) {
     Http.open("GET", nextSlideUrl);
+    Http.send();
   } else if (window.location.href.includes("popup=true")) {
     Http.open("GET", popupUrl);
-    intervalId = setInterval(deletePopup, 3000);
-  }
-  try {
     Http.send();
-  } catch (e) {
-    // nothing
+    /* deletePopup()を3000ms後に実行*/
+    intervalId = setInterval(deletePopup, 3000/*ms*/);
   }
 }
 
