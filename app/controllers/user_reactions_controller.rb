@@ -51,7 +51,13 @@ class UserReactionsController < ApplicationController
     @reactions = Reaction.all
   end
 
-  def swiper; end
+  def swiper
+    @script_id = params[:script_id]
+    @slides = Slide.where(script_id: params[:script_id])
+    unless @slides
+      @slides = Slide.all
+    end
+  end
 
   # nest_slideアクションと，popupアクションはやっていることは全く同じ
   # 異なるのは，ブロードキャストする時のキーのみ
