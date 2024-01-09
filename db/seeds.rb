@@ -39,9 +39,21 @@ N.times do |n|
 end
 
 
-for i in 1..5
+for i in 1..10
     slide = Slide.create(
-        script_id: 1
+        script_id: 0
     )
-    slide.image.attach(io: File.open("app/assets/images/slide#{i}.png"), filename:"bad.png")
+    slide.image.attach(io: File.open("app/assets/images/slide0-#{i}.png"), filename:"slide0-#{i}.png")
+end
+
+NUM_OF_EXPERIMENT = 3 # 試行数が3
+NUM_OF_SLIEDE = 17 # 1試行は17スライド
+
+for i in 1..NUM_OF_EXPERIMENT
+    for j in 1..NUM_OF_SLIEDE
+        slide = Slide.create(
+            script_id: i
+        )
+        slide.image.attach(io: File.open("app/assets/images/slide#{i}-#{j}.png"), filename:"slide#{i}-#{j}.png")
+    end
 end
