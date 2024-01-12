@@ -52,7 +52,6 @@ class UserReactionsController < ApplicationController
   end
 
   def swiper
-    @script_id = params[:script_id]
     @slides = Slide.where(script_id: params[:script_id])
     unless @slides
       @slides = Slide.all
