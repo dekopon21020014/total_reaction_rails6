@@ -41,10 +41,11 @@ class UserReactionsController < ApplicationController
 
   def new_image
     new_reaction = UserReaction.create(
-      reaction_id: params[:reaction_id]
+      reaction_id: params[:reaction_id],
+      slide_id:    params[:slide_id]
     )
     path = Rails.application.routes.url_helpers.rails_blob_path(new_reaction.reaction.image, only_path: true)
-    ActionCable.server.broadcast "reaction_channel_image", {user_reactions_image: render_image, image_path: path}
+    # ActionCable.server.broadcast "reaction_channel_image", {user_reactions_image: render_image, image_path: path}
   end
 
   def tmp
@@ -62,11 +63,11 @@ class UserReactionsController < ApplicationController
   # 異なるのは，ブロードキャストする時のキーのみ
   # これ一個にまとめられるのでは？
   def next_slide
-    ActionCable.server.broadcast "reaction_channel_image", {clicked_true: render_image}
+    ActionCable.server.broadcast "reaction_channel_image", {clicked_true: render_image(params[:slide_id])}
   end
 
   def popup
-    ActionCable.server.broadcast "reaction_channel_image", {popup_true: render_image}
+    ActionCable.server.broadcast "reaction_channel_image", {popup_true: render_image(params[:slide_id])}
   end
 
   def traditional
@@ -78,7 +79,7 @@ class UserReactionsController < ApplicationController
     params.require(:user_reaction).permit(:reaction_id)
   end
 
-  def render_image
+  def render_image(slide_id)
     # reaction?channel.rbからコピペしたからコメントはそっちに記述した
     reactions = Reaction.all
     renderer = ApplicationController.renderer.new(
@@ -88,6 +89,7 @@ class UserReactionsController < ApplicationController
     renderer.render(partial: 'user_reactions/images', 
                     locals: {
                       reactions: reactions,
+                      slide_id:  slide_id,
                     }
                   )
   end
