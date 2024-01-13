@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-#Reaction.create([{name: 'hoge'}, {name: 'foo'}, {name: 'huga'}])
+# Reaction.create([{name: 'hoge'}, {name: 'foo'}, {name: 'huga'}])
 
 reaction = Reaction.create(
     name: "Good"
@@ -26,7 +26,7 @@ reaction.image.attach(io: File.open("app/assets/images/smartphone_gorogoro_man.p
 N = LIMIT / 3
 N.times do |n|
     UserReaction.create(
-        reaction_id: 1
+        reaction_id: 1        
     )
 
     UserReaction.create(
@@ -43,18 +43,18 @@ for i in 1..10
     slide = Slide.create(
         script_id: 0
     )
-    slide.image.attach(io: File.open("app/assets/images/slide0-#{i}.png"), filename:"slide0-#{i}.png")
+    slide.image.attach(io: File.open("app/assets/images/slide0/slide0-#{i}.png"), filename:"slide0-#{i}.png")
 end
 
 # 実際に実験で用いるスライド
-NUM_OF_EXPERIMENT = 3  # 試行数が3
-NUM_OF_SLIEDE     = 17 # 1試行は17スライド
+NUM_OF_EXPERIMENT = 4  # 試行数が4
+NUM_OF_SLIEDE     = 14 # 1試行は14スライド
 
 for i in 1..NUM_OF_EXPERIMENT
     for j in 1..NUM_OF_SLIEDE
         slide = Slide.create(
             script_id: i
         )
-        slide.image.attach(io: File.open("app/assets/images/slide#{i}-#{j}.png"), filename:"slide#{i}-#{j}.png")
+        slide.image.attach(io: File.open("app/assets/images/slide#{i}/slide#{i}-#{j}.png"), filename:"slide#{i}-#{j}.png")
     end
 end
