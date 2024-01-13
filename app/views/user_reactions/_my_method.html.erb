@@ -7,7 +7,7 @@
     </div>
 <% elsif request.url.include?('traditional=true')%>
     <div id="traditional-true" style="margin-left: 70px;"> 
-        <%= render 'user_reactions/traditional' %>
+        <%= render 'user_reactions/traditional', {slide_id: 1} %>
     </div>
 <% else %>
     <div id="image" style="margin-top: 380px;">
