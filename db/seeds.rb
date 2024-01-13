@@ -26,7 +26,7 @@ reaction.image.attach(io: File.open("app/assets/images/smartphone_gorogoro_man.p
 N = LIMIT / 3
 N.times do |n|
     UserReaction.create(
-        reaction_id: 1
+        reaction_id: 1        
     )
 
     UserReaction.create(
