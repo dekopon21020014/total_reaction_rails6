@@ -26,7 +26,10 @@ class UserReactionsController < ApplicationController
   end
 
   def create # こいつも使ってない
-    @user_reaction = UserReaction.new(reaction_id: params[:reaction_id].to_i)
+    @user_reaction = UserReaction.new(
+      reaction_id: params[:reaction_id],
+      slide_id:    params[:slide_id]
+    )
     if @user_reaction.save
       # ActionCable.server.broadcast 'reaction_channel', {content: @user_reaction}
       # redirect_to new_user_reaction_path
@@ -39,15 +42,6 @@ class UserReactionsController < ApplicationController
 	  @reactions = Reaction.all
   end
 
-  def new_image
-    new_reaction = UserReaction.create(
-      reaction_id: params[:reaction_id],
-      slide_id:    params[:slide_id]
-    )
-    path = Rails.application.routes.url_helpers.rails_blob_path(new_reaction.reaction.image, only_path: true)
-    # ActionCable.server.broadcast "reaction_channel_image", {user_reactions_image: render_image, image_path: path}
-  end
-
   def tmp
     @reactions = Reaction.all
   end
@@ -57,6 +51,15 @@ class UserReactionsController < ApplicationController
     unless @slides
       @slides = Slide.all
     end
+  end
+
+  def new_image
+    new_reaction = UserReaction.new(
+      reaction_id: params[:reaction_id],
+      slide_id:    params[:slide_id]
+    )
+    path = Rails.application.routes.url_helpers.rails_blob_path(new_reaction.reaction.image, only_path: true)
+    ActionCable.server.broadcast "reaction_channel_image", {user_reactions_image: render_image(params[:slide_id]), image_path: path}
   end
 
   # nest_slideアクションと，popupアクションはやっていることは全く同じ
