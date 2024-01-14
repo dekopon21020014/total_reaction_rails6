@@ -26,16 +26,11 @@ class UserReactionsController < ApplicationController
   end
 
   def create # こいつも使ってない
-    @user_reaction = UserReaction.new(
+    user_reaction = UserReaction.new(
       reaction_id: params[:reaction_id],
       slide_id:    params[:slide_id]
     )
-    if @user_reaction.save
-      # ActionCable.server.broadcast 'reaction_channel', {content: @user_reaction}
-      # redirect_to new_user_reaction_path
-    else
-      render :new
-    end
+    user_reaction.save  
   end
 
   def image

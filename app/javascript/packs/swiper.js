@@ -1,3 +1,5 @@
+// import { clear } from "webpack/lib/node/nodeConsole";
+
 const swiper = new Swiper('.swiper', {
   // Optional parameters
   // direction: 'vertical',
@@ -36,11 +38,15 @@ const newImageUrl  = domain + '/user_reactions/new_image';
 const maxSlideId   = 14;
 
 /* シンプルにswiperの矢印がクリックされた時のonclickも見張ろう */
-let intervalId;
+let popupIntervalId;
+let scenarioIntervalId;
 let currentSlideId = 1;
+let currentURL = window.location.href;
 
 if (window.location.href.includes("traditional=true")) {
   addEventListener("keydown", traditionalKeyEvent);
+} else if(currentURL.includes("twice=true")) {
+  addEventListener("keydown", traditionalTwiceKeyEvent);
 } else if (window.location.href.includes("clicked=true")){
   addEventListener("keydown", clickedKeyEvent);
 } else if (window.location.href.includes("popup=true")) {
@@ -55,8 +61,32 @@ if (window.location.href.includes("traditional=true")) {
 function traditionalKeyEvent(e) {
   if (e.code == 'Enter' || e.code == 'ArrowRight' || e.code == 'Space') {
     buttonNext.click();
-    if (++currentSlideId == 2) {
-      setInterval(appendImage, 1000);
+    currentSlideId++;
+    if (currentSlideId == 2) {
+      clearInterval(scenarioIntervalId);
+      scenarioIntervalId = setInterval(appendImage, interval[j]*2);
+    } else if (currentSlideId == maxSlideId) {
+      clearInterval(scenarioIntervalId);
+    }
+  } else if (e.code == 'ArrowLeft') {
+    buttonPrev.click();
+    currentSlideId--;
+  }
+}
+
+/*
+ * 内容は従来手法だが，リアクション数を倍にする．
+ * 参加者が2倍になってリアクションが増えた想定
+*/
+function traditionalTwiceKeyEvent(e) {
+  if (e.code == 'Enter' || e.code == 'ArrowRight' || e.code == 'Space') {
+    buttonNext.click();
+    currentSlideId++;
+    if (currentSlideId == 2) {
+      clearInterval(scenarioIntervalId);
+      scenarioIntervalId = setInterval(appendTwiceImage, interval[j]);
+    } else if (currentSlideId == maxSlideId) {
+      clearInterval(scenarioIntervalId);
     }
   } else if (e.code == 'ArrowLeft') {
     buttonPrev.click();
@@ -73,8 +103,13 @@ function clickedKeyEvent(e) {
     buttonNext.click();
     if (currentSlideId > 0 && currentSlideId < maxSlideId) {
       updateImage(currentSlideId);
-      if (++currentSlideId == 2) {
-        setInterval(createReaction, 1000);
+      currentSlideId++;
+      if (currentSlideId == 2) {
+        clearInterval(scenarioIntervalId);
+        scenarioIntervalId = setInterval(createReaction, interval[j]);
+        console.log(`id = ${scenarioIntervalId}`);
+      } else if (currentSlideId == maxSlideId) {
+        clearInterval(scenarioIntervalId);
       }
     }
   } else if (e.code == 'ArrowLeft') {
@@ -90,12 +125,16 @@ function clickedKeyEvent(e) {
 */
 function popupKeyEvent(e) {
   if (e.code == 'Enter' || e.code == 'ArrowRight' || e.code == 'Space') {    
-    clearInterval(intervalId); 
+    clearInterval(popupIntervalId); 
     buttonNext.click();
     if (currentSlideId > 0 && currentSlideId < maxSlideId) {
       createPopup(currentSlideId);
-      if (++currentSlideId == 2) {
-        setInterval(createReaction, 1000);
+      currentSlideId++;
+      if (currentSlideId == 2) {
+        clearInterval(scenarioIntervalId);
+        scenarioIntervalId = setInterval(createReaction, interval[j]);
+      } else if (currentSlideId == maxSlideId) {
+        clearInterval(scenarioIntervalId);
       }
     }
   } else if (e.code == 'ArrowLeft') {
@@ -115,65 +154,67 @@ function createPopup(slideId) {
   Http.open("GET", `${popupUrl}?slide_id=${slideId}`);
   Http.send();
   /* deletePopup()を3000ms後に実行 */
-  intervalId = setInterval(deletePopup, 4000/*ms*/);
+  popupIntervalId = setInterval(deletePopup, 4000/*ms*/);
 }
 
 function deletePopup() {
   $('#popup-true').html('');
-  clearInterval(intervalId);
+  clearInterval(popupIntervalId);
 }
 
-let index = 0;
-let scenario = [1, 2, 2, 1, 1, 1, 1, 1, 1, 3,
-                2, 3, 3, 2, 2, 2, 2, 2, 2, 1,
-                3, 1, 1, 3, 3, 3, 3, 3, 3, 3
-               ];
-[1121121131];
-[1111111332];
-[2222222113];
-[2222222331];
-[3333333112];
-[3333333221];
+let i = 0;
+let j = 0;
+let scenario = [
+  [1, 1, 2, 1, 1, 2, 1, 1, 3, 1],
+  [2, 2, 1, 2, 2, 1, 2, 2, 3, 2],
+  [3, 3, 1, 3, 3, 1, 3, 3, 2, 3],
+  [1, 1, 3, 1, 1, 3, 1, 1, 2, 1],
+  [2, 2, 3, 2, 2, 3, 2, 2, 1, 2],  
+  [3, 3, 2, 3, 3, 2, 3, 3, 1, 3]
+];
+
+let interval = [500, 200, 2200, 200, 200, 2700, 200, 900, 200, 2700];
+function appendImage() {
+  let url = domain + "/user_reactions/new_image?reaction_id=";
+  Http.open("GET", url + scenario[i][j]);
+  Http.send();
+  clearInterval(scenarioIntervalId);
+  if (++j == scenario[i].length) {
+    j = 0;
+    if (++i == scenario.length)  {
+      i = 0;
+    }
+  }
+  scenarioIntervalId = setInterval(appendImage, interval[j]*2);
+}
+
+function appendTwiceImage() {
+  let url = domain + "/user_reactions/new_image?reaction_id=";
+  Http.open("GET", url + scenario[i][j]);
+  Http.send();
+  clearInterval(scenarioIntervalId);
+  if (++j == scenario[i].length) {
+    j = 0;
+    if (++i == scenario.length)  {
+      i = 0;
+    }
+  }
+  scenarioIntervalId = setInterval(appendTwiceImage, interval[j]/2);
+  console.log("twice");
+}
+
+
 
 function createReaction() {
   let url = domain + "/user_reactions/create?reaction_id=";
-  Http.open("GET", url + scenario[index] + "&slide_id=" + currentSlideId);
+  Http.open("GET", url + scenario[i][j] + "&slide_id=" + currentSlideId);
   Http.send();
-  index = ++index % scenario.length;
-}
-
-function appendImage() {
-  let url = domain + "/user_reactions/new_image?reaction_id=";
-  Http.open("GET", url + scenario[index]);
-  Http.send();
-  index = ++index % scenario.length; // 剰余は多分鈍足
-}
-
-/*
-if (!window.location.href.includes("script_id=0")) {
-  // setInterval(createReaction, 500);
-} else if (currentSlideId == 17) {
-  console.log("finished");
-}
-
-/*
-*  以下の3つのURLで動きが変わるppはなくても一応大丈夫
-*  http://localhost:3000/user_reactions/swiper?pp=disable
-*  http://localhost:3000/user_reactions/swiper?pp=disable&popup=true
-*  http://localhost:3000/user_reactions/swiper?pp=disable&clicked=true
-*/
-
-
-/* 
-  if (traditional) {
-    apppendImaeg();
-  } else if (clicked_true){
-    if (clicked) {
-      update_image();
-    }
-  } else if (popup) {
-    if (clicked) {
-      popup_image();
+  clearInterval(scenarioIntervalId);
+  if (++j == scenario[i].length) {
+    j = 0;
+    if (++i == scenario.length)  {
+      i = 0;
     }
   }
-*/
+  scenarioIntervalId = setInterval(createReaction, interval[j]*2);
+}
