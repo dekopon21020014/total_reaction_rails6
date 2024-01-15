@@ -1,5 +1,3 @@
-// import { clear } from "webpack/lib/node/nodeConsole";
-
 const swiper = new Swiper('.swiper', {
   // Optional parameters
   // direction: 'vertical',
@@ -153,7 +151,7 @@ function updateImage(slideId) {
 function createPopup(slideId) {
   Http.open("GET", `${popupUrl}?slide_id=${slideId}`);
   Http.send();
-  /* deletePopup()を3000ms後に実行 */
+  /* deletePopup()を4000ms後に実行 */
   popupIntervalId = setInterval(deletePopup, 4000/*ms*/);
 }
 
@@ -202,8 +200,6 @@ function appendTwiceImage() {
   scenarioIntervalId = setInterval(appendTwiceImage, interval[j]/2);
   console.log("twice");
 }
-
-
 
 function createReaction() {
   let url = domain + "/user_reactions/create?reaction_id=";
