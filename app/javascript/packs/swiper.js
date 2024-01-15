@@ -60,6 +60,8 @@ function traditionalKeyEvent(e) {
   if (e.code == 'Enter' || e.code == 'ArrowRight' || e.code == 'Space') {
     buttonNext.click();
     currentSlideId++;
+    i = (currentSlideId - 2) % scenario.length;
+    j = 0;
     if (currentSlideId == 2) {
       clearInterval(scenarioIntervalId);
       scenarioIntervalId = setInterval(appendImage, interval[j]*2);
@@ -80,6 +82,8 @@ function traditionalTwiceKeyEvent(e) {
   if (e.code == 'Enter' || e.code == 'ArrowRight' || e.code == 'Space') {
     buttonNext.click();
     currentSlideId++;
+    i = (currentSlideId - 2) % scenario.length;
+    j = 0;
     if (currentSlideId == 2) {
       clearInterval(scenarioIntervalId);
       scenarioIntervalId = setInterval(appendTwiceImage, interval[j]);
@@ -102,6 +106,8 @@ function clickedKeyEvent(e) {
     if (currentSlideId > 0 && currentSlideId < maxSlideId) {
       updateImage(currentSlideId);
       currentSlideId++;
+      i = (currentSlideId - 2) % scenario.length;
+      j = 0;
       if (currentSlideId == 2) {
         clearInterval(scenarioIntervalId);
         scenarioIntervalId = setInterval(createReaction, interval[j]);
@@ -128,6 +134,8 @@ function popupKeyEvent(e) {
     if (currentSlideId > 0 && currentSlideId < maxSlideId) {
       createPopup(currentSlideId);
       currentSlideId++;
+      i = (currentSlideId - 2) % scenario.length;
+      j = 0;
       if (currentSlideId == 2) {
         clearInterval(scenarioIntervalId);
         scenarioIntervalId = setInterval(createReaction, interval[j]);
@@ -162,16 +170,31 @@ function deletePopup() {
 
 let i = 0;
 let j = 0;
-let scenario = [
-  [1, 1, 2, 1, 1, 2, 1, 1, 3, 1],
-  [2, 2, 1, 2, 2, 1, 2, 2, 3, 2],
-  [3, 3, 1, 3, 3, 1, 3, 3, 2, 3],
-  [1, 1, 3, 1, 1, 3, 1, 1, 2, 1],
-  [2, 2, 3, 2, 2, 3, 2, 2, 1, 2],  
-  [3, 3, 2, 3, 3, 2, 3, 3, 1, 3]
-];
 
-let interval = [500, 200, 2200, 200, 200, 2700, 200, 900, 200, 2700];
+let scenario;
+let interval;
+if (currentURL.includes("script_id=0")) {
+  scenario = [
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+    [3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+    [3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
+  ]
+  interval = [500, 500, 500, 500, 500, 500, 500, 500, 500, 500];
+} else {
+  scenario = [
+    [1, 1, 2, 1, 1, 2, 1, 1, 3, 1],
+    [2, 2, 1, 2, 2, 1, 2, 2, 3, 2],
+    [3, 3, 1, 3, 3, 1, 3, 3, 2, 3],
+    [3, 3, 2, 3, 3, 2, 3, 3, 1, 3],
+    [1, 1, 3, 1, 1, 3, 1, 1, 2, 1],
+    [2, 2, 3, 2, 2, 3, 2, 2, 1, 2]
+  ];
+  interval = [500, 200, 2200, 200, 200, 2700, 200, 900, 200, 2700];
+}
+
 function appendImage() {
   let url = domain + "/user_reactions/new_image?reaction_id=";
   Http.open("GET", url + scenario[i][j]);
@@ -179,9 +202,6 @@ function appendImage() {
   clearInterval(scenarioIntervalId);
   if (++j == scenario[i].length) {
     j = 0;
-    if (++i == scenario.length)  {
-      i = 0;
-    }
   }
   scenarioIntervalId = setInterval(appendImage, interval[j]*2);
 }
@@ -193,12 +213,8 @@ function appendTwiceImage() {
   clearInterval(scenarioIntervalId);
   if (++j == scenario[i].length) {
     j = 0;
-    if (++i == scenario.length)  {
-      i = 0;
-    }
   }
   scenarioIntervalId = setInterval(appendTwiceImage, interval[j]/2);
-  console.log("twice");
 }
 
 function createReaction() {
@@ -208,9 +224,6 @@ function createReaction() {
   clearInterval(scenarioIntervalId);
   if (++j == scenario[i].length) {
     j = 0;
-    if (++i == scenario.length)  {
-      i = 0;
-    }
   }
   scenarioIntervalId = setInterval(createReaction, interval[j]*2);
 }
