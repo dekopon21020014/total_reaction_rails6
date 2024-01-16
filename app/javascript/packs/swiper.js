@@ -71,6 +71,7 @@ function traditionalKeyEvent(e) {
   } else if (e.code == 'ArrowLeft') {
     buttonPrev.click();
     currentSlideId--;
+    i = (currentSlideId - 2) % scenario.length;
   }
 }
 
@@ -93,6 +94,7 @@ function traditionalTwiceKeyEvent(e) {
   } else if (e.code == 'ArrowLeft') {
     buttonPrev.click();
     currentSlideId--;
+    i = (currentSlideId - 2) % scenario.length;
   }
 }
 
@@ -120,6 +122,7 @@ function clickedKeyEvent(e) {
     buttonPrev.click();
     if (currentSlideId > 1) {
       currentSlideId--;
+      i = (currentSlideId - 2) % scenario.length;
     }
   }
 }
@@ -147,6 +150,7 @@ function popupKeyEvent(e) {
     buttonPrev.click();
     if (currentSlideId > 1) {
       currentSlideId--;
+      i = (currentSlideId - 2) % scenario.length;
     }
   }
 }
